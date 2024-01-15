@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <h1>Hello ca nha</h1>
+
+    <select id="semester" onchange="load()">
+        <option value="">...HỌC KÌ...</option>
+        {% for s in semester:%}
+        <option value="{{s.id}}">Học Kì {{s.semester}} năm {{s.year}}</option>
+        {% endfor %}
+    </select>
+
+    <select id="grade" onchange="load()">
+        <option value="">...KHỐI LỚP...</option>
+         {% for g in Grade:%}
+        <option value="{{g.name}}">Lớp {{g.value}}</option>
+        {% endfor %}
+    </select>
+    <select id="class" onchange="load()">
+        <option value="">...LỚP...</option>
+    </select>
+    <select id="subject">
+        <option value="">...MÔN...</option>
+    </select>
+
+    <div id="result"></div>
+
+<script>
+    function load(){
+        semester = document.getElementById("semester").value
+        grade = document.getElementById("grade").value
+        jclass = document.getElementById("class").value
+        html = "<option>...KHỐI LỚP...</option>"
+        if (semester != "" && grade != "" ){
+            fetch("/api/teaching_plan/", {
+                method: "POST",
+                body: JSON.stringify({
+                    "semester": semester,
+                    "grade": grade,
+                    "class": jclass,
+
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function(res){
+                return res.json()
+            }).then(function(data){
+                console.log(data)
+                if (data.len_subjects == 0){
+                html_class = "<option value=''>...LỚP...</option>"
+                for(var i = 0; i<data.len_class; i++){
+                    html_class +=  `<option value="${data.class[i].id}">${data.class[i].name}</option>`
+                }
+                }
+                document.getElementById("class").innerHTML = html_class
+                html_class = "<option value=''>...MÔN...</option>"
+                for(var i = 0; i<data.len_subjects; i++){
+                    html_class +=  `<option value="${data.subjects[i].id}">${data.subjects[i].name}</option>`
+                }
+                document.getElementById("subject").innerHTML = html_class
+            })
+        }
+
+    }
+</script>
+</body>
+</html>

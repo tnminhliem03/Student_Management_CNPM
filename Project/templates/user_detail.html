@@ -1,0 +1,129 @@
+{% extends 'layout/base.html'%}
+{% block title %}{{user.name}} - Trang cá nhân{% endblock %}
+{% block content %}
+        <div id="name_box" class="bg-secondary">
+                <div>
+                        <img src="{{user.image}}" class = 'rounded-circle' style="width: 20%; height: 20%">
+                        <div style="margin-left: 20px">
+                                <h1 >{{user.name}}</h1>
+                                <span>{% for r in user.roles: %}
+                                        <p style="margin-bottom: 5px">{{r.role.value.upper()}}</p>
+                                                {% endfor %}</span>
+                        </div>
+                </div>
+                {% if current_user.id == user.id:%}
+                <div>
+                        <div>
+                                <button type="button" class="btn btn-primary mb-4"  data-bs-toggle="modal" data-bs-target="#ChangeAvatar">Thay đổi avatar</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ChangePassword">Thay đổi mật khẩu</button>
+                        </div>
+                </div>
+                {% endif %}
+        </div>
+        <div id="content_box">
+                <div>
+                        <h4>Thông tin cá nhân</h4>
+                        <div>
+                                <p><strong>Họ và tên: </strong> {{user.name}}</p>
+                                <p><strong>Giới tính: </strong> {{"Nam" if user.gender==1 else "Nữ"}}</p>
+                                <p><strong>Ngày sinh: </strong> {{user.birthdate}}</p>
+                                <p><strong>Địa chỉ: </strong> {{user.address}}</p>
+                        </div>
+                        <h4>Thông tin khác</h4>
+                        {% if role == "học sinh" %}
+                        <div>
+                                <p><strong>Khối lớp: </strong> {{user.student[0].grade.value}}</p>
+                                <p><strong>Học kì: </strong> Học kì {{user.student[0].semester.semester}} năm {{user.student[0].semester.year}}</p>
+                                <p><strong>Lớp: </strong> {{student_class}} </p>
+                        </div>
+                        {% elif role == "giáo viên" %}
+                        <div>
+                                <p><strong>Văn Bằng: </strong> {{user.teacher[0].vanBang}}</p>
+                                <p><strong>Các môn học: </strong>
+                                    {% for s in user.teacher[0].subjects%}
+                                        {{s.subject_detail.name}},
+                                    {% endfor %}
+                                </p>
+
+                        </div>
+                        {% endif %}
+                </div>
+                <div>
+                         <h4>Thông tin liên lạc</h4>
+                        <div>
+                                {% for c in user.contacts%}
+                                <p><strong>{{c.contactType.value}}:</strong> {{c.contactData}}</p>
+                                {% endfor %}
+                        </div>
+                </div>
+        </div>
+        {% if current_user.id == user.id%}
+
+
+                <!-- The Modal -->
+                <div class="modal" id="ChangePassword">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+
+                      <!-- Modal Header -->
+                      <div class="modal-header">
+                        <h4 class="modal-title">Thay đổi mật khẩu</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+
+                      <!-- Modal body -->
+                      <div class="modal-body">
+                        <div >
+                                <label for="oldPassword">Mật khẩu hiện tại</label><br>
+                                <input type="password" id="oldPassword">
+                                <br><br>
+                                <label for="newPassword">Mật khẩu mới:</label><br>
+                                <input type="password" id="newPassword">
+                                <br><br>
+                                <label for="confirmPassword">Nhập lại mật khẩu:</label><br>
+                                <input type="password" id="confirmPassword">
+                        </div>
+                      </div>
+
+                      <!-- Modal footer -->
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="change_password({{user.id}})">Thay đổi</button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal" id="ChangeAvatar">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+
+                      <!-- Modal Header -->
+                      <div class="modal-header">
+                        <h4 class="modal-title">Thay đổi ảnh đại diện</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+
+                      <!-- Modal body -->
+                      <div class="modal-body">
+                        <div>
+                            <form action="/api/change_avatar/{{current_user.id}}" method="POST" enctype="multipart/form-data">
+                                <input type="file" name="newFile" id="myFile" onchange="onFileSelected(event)">
+                                <img src="{{current_user.image}}" id="image" class="rounded-circle" style="height: 100px"/>
+                                <button type="submit" class ="btn btn-success">Thay đổi</button>
+                            </form>
+                        </div>
+                      </div>
+
+                      <!-- Modal footer -->
+                      <div class="modal-footer">
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+        {% endif %}
+{% endblock %}
+{% block script %}
+        <script src= "{{url_for('static', filename = 'js/user_detail.js')}}"></script>
+{% endblock %}

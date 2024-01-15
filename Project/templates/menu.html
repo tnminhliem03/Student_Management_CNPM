@@ -1,0 +1,50 @@
+{% extends 'layout/base.html' %}
+{% block title %}Trang chủ{% endblock %}
+
+{% block content %}
+
+    <div class="alert alert-success">
+      <strong>Success!</strong> {{msg}}
+    </div>
+    <div class="container">
+        <div class="row bg-secondary" style="height: 650px">
+            <div class="col-md-2 bg-info p-2" >
+                <h4>FILTER</h4>
+                <div class="list-group">
+                    <a href="/" class="list-group-item">TẤT CẢ</a>
+                    <a class="list-group-item" href="?filter=NHANVIEN">NHÂN VIÊN</a>
+                    <a class="list-group-item" href="?filter=ADMIN">ADMIN</a>
+                    <a class="list-group-item" href="?filter=GIAOVIEN">GIÁO VIÊN</a>
+                </div>
+            </div>
+            <div class="col-md-10 p-2">
+                <h4>CHANGE NOTIFICATIONS</h4>
+                <ul class="pagination">
+                    {% for t in range(tags['start'],tags['end']+1): %}
+                        <li class="page-item"><a class="page-link"  onclick="setPara('page',{{t}})">{{t}}</a></li>
+                    {% endfor %}
+                </ul>
+                <div id ="notification" style="height: 500px; background-color: grey">
+                    {% if notifications: %}
+                    <ul class = 'list-group'>
+                        {% for n in notifications: %}
+                            <li class="list-group-item" style="display: flex;justify-content: space-between; align-items: center">
+                                  <div style = "width:20%">{{n.user_role.value.upper()}}</div>
+                                  <div style = "width:50%"><span style = "font-weight: bold">{{n.user_detail.name}}</span> đã {{n.content}}</div>
+                                  <div>{{n.created_date}}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <div style='display:flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%'>
+                        <h1>KHÔNG CÓ THAY ĐỔI</h1>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src= "{{url_for('static', filename = 'js/menu.js')}}"></script>
+{% endblock %}

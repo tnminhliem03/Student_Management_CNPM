@@ -1,0 +1,37 @@
+{% extends 'layout/base.html' %}
+{% block title %}Tạo lớp học - LPH EDU{% endblock %}
+{% block content %}
+
+{%if msg != None: %}
+    <div class="alert alert-success">
+      <strong>{{msg['status']}}!</strong> {{msg['message']}}
+    </div>
+{% endif %}
+
+<div class="label "></div>
+<form action="" method="POST" style="margin: 100px">
+    <label for="grade">Khối lớp</label>
+    <select name="grade" id="grade" onchange="get_non_class_user_by_grade()">
+        <option value="NULL">...</option>
+        {% for g in Grade %}
+        <option value={{g.name}}>Khối {{g.value}}</option>
+        {% endfor %}
+    </select>
+    <label for="amount">Số lượng học sinh chưa được xếp lớp</label>
+    <input readonly type="text" id="amount" name="amount" style="width: 30px">
+    <button type="submit" class="btn btn-primary">Tạo lớp</button>
+</form>
+
+<div id="student_box">
+    <div class="student">
+        <h4>Danh sách học sinh chưa có lớp</h4>
+        <ul id="student_panel_get">
+            <h2 style="display: flex; justify-content: center; align-items: center">Vui lòng chọn khối lớp</h2>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %}
+        <script src= "{{url_for('static', filename = 'js/nhanvien.js')}}"></script>
+{% endblock %}

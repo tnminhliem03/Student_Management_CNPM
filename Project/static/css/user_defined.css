@@ -1,0 +1,78 @@
+
+#name_box{
+    height: 200px;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10%;
+    color: white;
+}
+#name_box>div:first-child {
+    display: flex;
+    width: 70%
+}
+#name_box>div>div{
+    display:flex;
+    flex-direction: column;
+    justify-content: center
+}
+
+#content_box{
+    padding: 1%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+#content_box div{
+    padding: 20px;
+    border: 2px solid #CCCACA;
+    width: 45%;
+    height: 600px
+}
+#content_box div div{
+    width: 100%;
+    margin: 10px;
+    height: auto;
+    border-style: none;
+}
+
+body{
+    position: relative
+}
+
+#change_password{
+    position: fixed;
+    background-color: white;
+    border: 5px solid white;
+    width: 300px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden
+}
+
+#student_box{
+    display: flex;
+    justify-content: center;
+}
+
+.student{
+    background-color: #A0A0A0;
+    width: 90%;
+    height: 300px;
+    padding: 20px;
+    border-radius: 20px;
+
+
+}
+#student_panel_get{
+    overflow: scroll;
+    background-color: white;
+    padding:0;
+    width: 100%;
+    height: 80%;
+
+}
+

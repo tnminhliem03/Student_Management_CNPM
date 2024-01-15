@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body, html{
+            height: 100%;
+            margin: 0;
+            font-family: Arial
+        }
+
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: radial-gradient(#4A4A4B, #000000);
+        }
+
+        .login_box{
+            width: 30%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgba(222,222,222,0.5);
+            color: white;
+            border-radius: 25px;
+        }
+        .submit_button{
+            height: 50px;
+            padding: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+            background-color: green;
+            border-radius: 0;
+            color: white;
+            width: 100%;
+            border-style: none
+        }
+        form p{
+            margin-top:10%;
+            font-size: 20px;
+            text-align: left
+        }
+        .register{
+            margin-top: 20px;
+            font-weight: bold;
+            color: white
+        }
+        input, select{
+            border-radius: 15px;
+            padding-left: 10px;
+            width: 90%;
+            height: 50px;
+            font-size: 20px;
+            background-color: rgba(222,222,222,0.5);
+            color: black;
+            border: 2px solid white;
+        }
+        h1.error{
+            padding 10px;
+            background-color: red;
+            color: white
+        }
+        }
+    </style>
+</head>
+<body>
+    {% if msg != "" %}
+    <h1 class="error" style="padding: 10px; background-color: #ff6347; color: #430000"> {{msg}} </h1>
+    {% endif %}
+    <div class="login_box">
+        <div style="margin-bottom: 0; padding-bottom: 0"><h1>ĐĂNG NHẬP</h1></div>
+        <div>Chào mừng đến với hệ thống của LPH Edu</div>
+        <div>
+        <form action="" method="POST">
+            {{ form.csrf_token }}
+            <p>{{form.hidden_tag()}}</p>
+            <p> {{form.userType.label}} <br> {{form.userType}}</p>
+            <p>Tên đăng nhập: <br> {{form.username}}</p>
+            <p>Mật khẩu: <br> {{form.password}}</p>
+            <p>{{form.submit(class_="submit_button")}}</p>
+        </form>
+        </div>
+    </div>
+    <div class="register">Nếu bạn chưa có tài khoản, hãy liên hệ với Admin để được hỗ trợ</div>
+
+</body>
+</html>

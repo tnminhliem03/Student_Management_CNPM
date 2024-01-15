@@ -1,0 +1,33 @@
+{% extends 'layout/base.html' %}
+{% block title %}Quy định chung{% endblock %}
+
+{% block content %}
+<h1 class="text-center text-info">QUY ĐỊNH CHUNG</h1>
+<div class="container">
+    <div class="text-warning">WHY?</div>
+    <table class="table table-bordered table-sm">
+        {% for p in principles %}
+        <tr>{{ p.type }}</tr>
+        {% endfor %}
+        <tr></tr>
+    </table>
+<!--    <table class="table table-bordered table-sm">-->
+<!--        <thead>-->
+<!--            <tr>Mã quy định</tr>-->
+<!--            <tr>Tên quy định</tr>-->
+<!--            <tr>Mô tả</tr>-->
+<!--            <tr>Ngày ban hành</tr>-->
+<!--        </thead>-->
+
+<!--        <tbody>-->
+<!--        <tr>Hhuhu</tr>-->
+<!--            {% for p in prin %}-->
+<!--            <tr>{{ p.id }}</tr>-->
+<!--            <tr>{{ p.name }}</tr>-->
+<!--            <tr>{{ p.description }}</tr>-->
+<!--            <tr>{{ d.created_date }}</tr>-->
+<!--            {% endfor %}-->
+<!--        </tbody>-->
+<!--    </table>-->
+</div>
+{% endblock %}
