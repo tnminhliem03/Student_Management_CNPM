@@ -1,0 +1,37 @@
+{% extends 'layout/base.html'%}
+{% block title %}Xét lên lớp{% endblock %}
+{% block content %}
+        <div class="container">
+        <div class="row bg-secondary" style="height: 650px">
+            <div class="col-md-2 bg-info p-2" >
+                <h4>FILTER</h4>
+                <div class="list-group">
+                    <div class="list-group-item">Học kì hiện tại: <strong>{{curSemester.id}}</strong></div>
+                    <div class="list-group-item" >Học kì xét: <strong>{{preSemester.id}}</strong></div>
+                    <button class="btn btn-success">Xét lên lớp</button>
+                </div>
+            </div>
+            <div class="col-md-10 p-2">
+                <h4>CHANGE NOTIFICATIONS</h4>
+                <div id ="notification" style="height: 500px; background-color: grey">
+                    {% if students: %}
+                    <ul class = 'list-group' style="overflow: scroll; height: 500px">
+                        {% for s in students: %}
+                            <li class="list-group-item" style="display: flex;justify-content: space-between; align-items: center">
+                                <div style = "width:50%">{{s[0].student_info.name}}</div>
+                                <div style = "width:20%">Khối {{s[0].grade.value}}</div>
+                                <div style = "width:20%">Học kì {{s[0].semester_id}}</div>
+                                <div style = "width:20%">ĐTB: {{s[1]}}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                        <div style='display:flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%'>
+                        <h1>KHÔNG CÓ THAY ĐỔI</h1>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

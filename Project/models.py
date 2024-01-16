@@ -165,54 +165,42 @@ if __name__ == "__main__":
         #           username = "ntnmai", password = hashlib.md5("123456".encode("utf-8")).hexdigest())
         # db.session.add(u1)
         # db.session.commit()
-        # gv1 = UserRoles(user_id = u1.id, role = UserRole.GIAOVIEN)
+        # gv1 = UserRoles(user_id = 1, role = UserRole.GIAOVIEN)
         # db.session.add(gv1)
         # db.session.commit()
         # pcp3 = Principle(type="CLASS_AMOUNT",data=45, description="Lớp học có tối đa 45 học sinh")
         # db.session.add(pcp3)
         # db.session.commit()
         import hashlib
-        u1 = User(family_name = "Mai Hoàng", first_name = "Phát", gender = True, address = "Nha Trang", birthdate = "08-11-2003",
-                  username = "mhphat", password = hashlib.md5("123456".encode("utf-8")).hexdigest())
-        u2 = User(family_name = "Nguyễn Văn", first_name = "A", gender=True, address="TP. Hồ Chí Minh",
-                  birthdate='10-11-2003',
-                  username="nva", password=hashlib.md5('123456'.encode("utf-8")).hexdigest())
-        u3 = User(family_name = "Trần Văn", first_name = "B", gender=True, address="TP. Hồ Chí Minh",
-                  birthdate='25-08-2003',
-                  username="tvb", password=hashlib.md5("123456".encode("utf-8")).hexdigest())
-        u4 = User(family_name = "Dương Thùy Bảo", first_name = "Trâm", gender=False, address="Nha Trang, Khánh Hòa",
-                  birthdate='06-10-2003',
-                  username="dtbtram", password=hashlib.md5("123456".encode("utf-8")).hexdigest())
-
-        hs1 = UserRoles(user_id = 4, role = UserRole.HOCSINH)
-        nv1 = UserRoles(user_id = 1, role = UserRole.NHANVIEN)
-        nv2 = UserRoles(user_id= 2, role = UserRole.NHANVIEN)
-        ad1 = UserRoles(user_id = 2, role = UserRole.ADMIN)
-        gv1 = UserRoles(user_id = 3, role = UserRole.GIAOVIEN)
-
-        # db.session.add_all([u1, u2, u3, u4])
-        # db.session.commit()
-        # db.session.add_all([nv1, nv2, ad1, gv1])
+        # u2 = User(family_name = "Mai Hoàng", first_name = "Phát", gender = True, address = "Nha Trang", birthdate = "08-11-2003",
+        #           username = "mhphat", password = hashlib.md5("123456".encode("utf-8")).hexdigest())
+        # u3 = User(family_name = "Nguyễn Văn", first_name = "A", gender=True, address="TP. Hồ Chí Minh",
+        #           birthdate='10-11-2003',
+        #           username="nva", password=hashlib.md5('123456'.encode("utf-8")).hexdigest())
+        # u4 = User(family_name = "Trần Văn", first_name = "B", gender=True, address="TP. Hồ Chí Minh",
+        #           birthdate='25-08-2003',
+        #           username="tvb", password=hashlib.md5("123456".encode("utf-8")).hexdigest())
+        # u5 = User(family_name = "Dương Thùy Bảo", first_name = "Trâm", gender=False, address="Nha Trang, Khánh Hòa",
+        #           birthdate='06-10-2003',
+        #           username="dtbtram", password=hashlib.md5("123456".encode("utf-8")).hexdigest())
+        # hs1 = UserRoles(user_id = 5, role = UserRole.HOCSINH)
+        # nv1 = UserRoles(user_id = 2, role = UserRole.NHANVIEN)
+        # nv2 = UserRoles(user_id= 3, role = UserRole.NHANVIEN)
+        # ad1 = UserRoles(user_id = 3, role = UserRole.ADMIN)
+        # gv2 = UserRoles(user_id = 4, role = UserRole.GIAOVIEN)
+        # db.session.add_all([u2, u3, u4, u5, hs1, nv1, nv2, ad1, gv2])
         # db.session.commit()
         #
-        no1 = ChangedNotification(user_id = 1, user_role = UserRole.NHANVIEN, content = "thay đổi giao diện front end" )
-        no2 = ChangedNotification(user_id=1, user_role=UserRole.NHANVIEN, content="thay đổi models")
-        no3 = ChangedNotification(user_id=1, user_role=UserRole.NHANVIEN, content="thay đổi templates")
-        # # no4 = ChangedNotification(user_id=3, user_role=UserRole.GIAOVIEN, content="nhập điểm")
-        # # for i in range(10):
-        # #     db.session.add_all([no4])
-        # #     db.session.commit()
+        # no1 = ChangedNotification(user_id = 2, user_role = UserRole.NHANVIEN, content = "thay đổi giao diện front end" )
+        # no2 = ChangedNotification(user_id=2, user_role=UserRole.NHANVIEN, content="thay đổi models")
+        # no3 = ChangedNotification(user_id=2, user_role=UserRole.NHANVIEN, content="thay đổi templates")
         # db.session.add_all([no1, no2, no3])
         # db.session.commit()
-        import cloudinary.uploader
-        # path = cloudinary.uploader.upload('Project/static/anonymous.png')
-        # path = cloudinary.uploader.upload('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROw75hblsK4_TpFmVKfNFNiAAonmyJ-xP1FzIIrl3XUg&s')
-        # print(path['secure_url'])
-        contact_u1_01 = UserContact(user_id = 1, contactType = LoaiTTLL.EMAIL, contactData = "mhphat.c17nvt@gmail.com")
-        contact_u1_02 = UserContact(user_id = 1, contactType = LoaiTTLL.DTCANHAN, contactData="0365051699")
-        k21 = Semester(id = '211', semester = 1, year = '2021')
-        student1 = Student(user_id = 4, grade = Grade.K10, semester_id = k21.id)
+        contact_u1_01 = UserContact(user_id = 2, contactType = LoaiTTLL.EMAIL, contactData = "mhphat.c17nvt@gmail.com")
+        contact_u1_02 = UserContact(user_id = 2, contactType = LoaiTTLL.DTCANHAN, contactData="0365051699")
+        k22 = Semester(id = '221', semester = 1, year = '2022')
+        student1 = Student(user_id = 5, grade = Grade.K10, semester_id = k22.id)
         pcp1 = Principle(type="AGE_START", data = 15, description = "Tuổi học sinh được tiếp nhận từ 15 tuổi đến 20 tuổi")
         pcp2 = Principle(type="AGE_END", data=20, description="Tuổi học sinh được tiếp nhận từ 15 tuổi đến 20 tuổi")
-        db.session.add_all([pcp1, pcp2])
+        db.session.add_all([contact_u1_01, contact_u1_02, k22, student1, pcp1, pcp2])
         db.session.commit()

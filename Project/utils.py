@@ -2,7 +2,7 @@ import hashlib
 import math
 
 from Project.models import User, UserRole, Employee, Admin, UserRoles, Student, UserContact, LoaiTTLL, \
-    ChangedNotification, Grade, Students_Classes, ScoreDetails
+    ChangedNotification, Grade, Students_Classes, ScoreDetails, Score, ScoreType
 from flask import session
 from Project import db, dao, app
 from flask_login import current_user
@@ -133,6 +133,33 @@ def update_score_record(record, list):
             record.score = float(list[0])
         db.session.commit()
         list.pop(0)
+def overall_score(student_id, year):
+    semester = dao.get_semester(year)
+    avg_smt=[]
+    for s in semester:
+        score_label = Score.query.filter(Score.student_id.__eq__(student_id), Score.semester_id.__eq__(s.id)).all()
+        avg_sj=[]
+        if len(score_label) == 0:
+            return 0
+        for sc in score_label:
+            avg, total = 0, 0
+            for d in sc.details:
+                match d.score_type:
+                    case ScoreType.MINS15:
+                        avg += d.score
+                        total += 1
+                    case ScoreType.MINS45:
+                        avg += (d.score) * 2
+                        total += 2
+                    case ScoreType.FINAL:
+                        avg += (d.score) * 3
+                        total += 3
+            avg = float(avg / total) if total!=0 else 0
+            avg_sj.append(avg)
+        avg = float(sum(avg_sj)/len(avg_sj)) if len(avg_sj)>0 else 0
+        avg_smt.append(avg)
+    return float(sum(avg_smt)/len(avg_smt)) if len(avg_smt)>0 else 0
+
 
 def add_score_record(list, Scoretype, score):
     for sd in list:

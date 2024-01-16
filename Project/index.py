@@ -84,6 +84,18 @@ def add_student():
     msg = session_pending['msg']
     amount = session_pending['total']
     return render_template('nhanvien/AddStudent.html', form = form, users_pending = users_pending, msg = msg, amount= amount)
+@app.route('/nhanvien/xet_len_lop')
+@login_required
+@role_only('NHANVIEN')
+def urgrade_students():
+    previous_semester = dao.get_previous_semester()
+    students = dao.load_students_all(semester="211")
+    curSemester = dao.get_latest_semester()
+    stuList = []
+    for s in students:
+        overall = utils.overall_score(s.user_id, previous_semester.year)
+        stuList.append((s,format(overall, '.2f')))
+    return render_template("nhanvien/UpgradeStudent.html", students=stuList, curSemester=curSemester, preSemester= previous_semester)
 @app.route('/nhanvien/quan_ly_lop_hoc')
 @login_required
 @role_only('NHANVIEN')
@@ -194,7 +206,7 @@ def class_info(class_id):
     isEditable = UserRole[session.get('role')] == UserRole.NHANVIEN
     teachers = dao.load_non_homeroom_teacher(myClass.year)
     subjects = dao.load_subject_all(myClass.grade, non_plan=True, class_id=myClass.id)
-    content = f'{dao.load_students_count(myClass.id)}/{int(dao.load_principles_name("CLASS_MAX").data)}'
+    content = f'{dao.load_students_count(myClass.id)}/{myClass.amount}'
     return render_template('class_detail.html', myClass = myClass, isEditable = isEditable, teachers = teachers,
                            subjects = subjects, student_count = content)
 @app.context_processor
@@ -469,8 +481,7 @@ def change_info(class_id):
                     utils.commit_changes(f"thêm môn {temp.subject_detail.name} vào lớp {myClass.name} - {myClass.year}")
             case "student":
                 students = data.get('students_id')
-                print(students)
-                class_max = dao.load_principles_name("CLASS_MAX").data
+                class_max = myClass.amount
                 if dao.load_students_count(myClass.id) + len(students) <= class_max:
                     try:
                         for s_id in students:
@@ -650,9 +661,7 @@ def validate_score():
     students = data.get('students')
     semester_id = data.get('semester_id')
     class_id = data.get('class_id')
-    print(class_id)
     myClass = dao.load_class(class_id)
-    print(students)
     failed = {
          "status": "failed",
          "message": ""
@@ -662,7 +671,6 @@ def validate_score():
          "message": "Xác nhận thành công"
     }
     for s in students:
-        print(type(plan_id), type(int(s['id'])), type(semester_id))
         score_label = dao.load_score_of_student(plan_id, int(s['id']), semester_id)
 
         if score_label is None:
@@ -674,7 +682,6 @@ def validate_score():
                 msg = failed
                 msg['message'] = str(exc)
                 return jsonify(msg)
-        print(score_label.id)
         if len(score_label.details) > 0:
             for s_d in score_label.details:
                 match s_d.score_type:

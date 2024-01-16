@@ -26,8 +26,10 @@ def load_changed_notification(filter = None, page = None):
 def load_changed_notifications_count():
     return ChangedNotification.query.count()
 
-def load_students_all(grade = None, page = None, kw = None):
+def load_students_all(grade = None, page = None, kw = None, semester=None):
     students = db.session.query(Student).join(User)
+    if semester:
+        students = students.filter(Student.semester_id.__eq__(semester))
     if grade:
         students = students.filter(Student.grade.__eq__(Grade[grade]))
     if kw:
@@ -39,7 +41,7 @@ def load_students_all(grade = None, page = None, kw = None):
         start = (page-1)*page_size
         students = students[start: start+page_size]
         return students
-    return students.order_by(User.first_name.asc())
+    return students.order_by(User.first_name.asc()).all()
 def load_students_count(id_class = None):
     counter = Student.query
     if id_class:
@@ -70,6 +72,9 @@ def load_principles_name(name):
 
 def get_latest_semester():
     return Semester.query.order_by(Semester.id.desc()).first()
+
+def get_previous_semester():
+    return Semester.query.order_by(Semester.id.desc()).all()[1]
 
 def get_semester(year = None):
     semester = Semester.query
@@ -228,3 +233,6 @@ def subject_report(subject_id=None, semester_id = None):
 def user_count():
     with app.app_context():
         return db.session.query(UserRoles.role, func.count(UserRoles.id)).group_by(UserRoles.role).all()
+
+
+

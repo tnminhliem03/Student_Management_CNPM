@@ -25,6 +25,7 @@ class AuthenticatedAdmin(ModelView):
         return current_user.is_authenticated and session.get("role") == 'ADMIN'
 
 
+Principle.id.in_([1,2,3])
 class EditPrincipleView(AuthenticatedAdmin):
     column_list = ['description', 'data']
     column_searchable_list = ['description']
@@ -38,9 +39,7 @@ class EditPrincipleView(AuthenticatedAdmin):
     # Lấy view từ thằng cha xong ghi đè để lấy mỗi thằng tuổi với số lượng học sinh
     def get_query(self):
         query = super().get_query()
-        return query.filter(Principle.type.in_(['AGE_START', 'AGE_END', 'CLASS_MAX']))
-
-
+        return query.filter(Principle.id.in_([1, 2, 3]))
 class ManageSubjectView(AuthenticatedAdmin):
     column_list = ['name', 'grade', 'mins15', 'mins45', 'final']
     column_searchable_list = ['name']
